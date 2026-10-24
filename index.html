@@ -1,517 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#103f45">
-<title>FLUENTO — Learn with Ollie</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102c36">
+<meta name="description" content="Fluento — playful language learning with Ollie, mood reactions, sounds, lessons and progress.">
+<title>Fluento — Learn a little every day</title>
 <style>
-:root{--bg:#f1faf7;--card:#fff;--ink:#17353c;--teal:#147d78;--soft:#dff5ee;--line:#dce9e5}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px Arial,sans-serif}
-header{background:#103f45;color:white;padding:15px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:2}
-main{max-width:760px;margin:auto;padding:16px 14px 90px}
-h1,h2,h3{line-height:1.25}
-button,select{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:12px}
-button{background:var(--teal);color:white;font-weight:bold}
-button:disabled{opacity:.5}
-.card{background:var(--card);padding:18px;margin:14px 0;border:1px solid var(--line);border-radius:20px;box-shadow:0 4px 15px #1232}
-.hero{background:linear-gradient(135deg,#126c65,#163d50);color:white;padding:20px;border-radius:22px;display:flex;align-items:center;gap:14px}
-.heroText{flex:1;min-width:0}
-.hero p{line-height:1.5}
-.mascot{font-size:76px;min-width:90px;text-align:center;display:inline-block;animation:float 2s ease-in-out infinite;transition:transform .25s}
-@keyframes float{50%{transform:translateY(-7px)}}
-.face{font-size:65px;display:inline-block;transition:transform .2s}
-.moodMessage{font-weight:bold;margin:7px 0}
-.muted{color:#647b80;font-size:.92rem}
-.full{width:100%;margin-top:9px}
-.secondary{background:var(--soft);color:var(--teal)}
-select{background:var(--soft);color:var(--ink);width:100%;margin:8px 0}
-.option{display:block;width:100%;text-align:left;margin:9px 0;background:white;color:var(--ink);border:2px solid var(--line)}
-.option.selected{border-color:var(--teal);background:var(--soft)}
-.option.correct{border-color:#31945b;background:#e3f8e9}
-.option.wrong{border-color:#d94f57;background:#ffebec}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:white;border-top:1px solid var(--line);padding:7px;gap:5px;z-index:3}
-nav button{flex:1;padding:11px 2px;font-size:12px}
-.stats{display:flex;gap:10px;font-size:13px}
-.progress{height:9px;background:#e4eeeb;border-radius:10px;overflow:hidden}
-.progress div{height:100%;background:var(--teal);transition:width .3s}
-@media(max-width:420px){.hero{padding:14px}.mascot{font-size:57px;min-width:60px}.face{font-size:55px}}
+:root{--ink:#17353c;--muted:#647b80;--bg:#f4faf8;--card:#fff;--teal:#147d78;--teal2:#dff5ee;--lime:#d7f36a;--orange:#ffb65c;--red:#d94f57;--line:#dce9e5;--shadow:0 8px 24px #153d3a12}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f3a642;outline-offset:2px}
+header{position:sticky;top:0;z-index:5;background:#ffffffed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:12px max(16px,calc((100vw - 1040px)/2));display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{display:flex;align-items:center;gap:9px;font-weight:950;font-size:1.35rem;letter-spacing:-.7px}.brandmark{display:grid;place-items:center;background:var(--teal);color:white;width:39px;height:39px;border-radius:13px;font-size:24px}.stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.pill{background:#f3f8f6;border:1px solid var(--line);padding:7px 10px;border-radius:999px;font-size:.9rem;font-weight:800}
+main{max-width:1040px;margin:0 auto;padding:22px 16px 100px}.hero{background:linear-gradient(120deg,#0e6965,#15434d);color:white;border-radius:25px;padding:23px;display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:var(--shadow)}.hero h1{font-size:clamp(1.5rem,4vw,2.4rem);line-height:1.08;margin:5px 0 9px}.hero p{margin:0;color:#e2f8f2;max-width:520px}.mascot{font-size:76px;flex-shrink:0;filter:drop-shadow(0 8px 8px #001c223d);animation:float 2.5s ease-in-out infinite}.eyebrow{text-transform:uppercase;font-weight:900;font-size:.75rem;letter-spacing:1.3px;color:#bdece2}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 13px}.section-head h2{margin:0;font-size:1.35rem}.muted{color:var(--muted);font-size:.92rem}.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:var(--shadow)}.course-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.course-row select,.mood-select{background:white;border:1px solid var(--line);border-radius:12px;padding:10px;color:var(--ink);font-weight:750}.progress-track{height:9px;background:#e5efec;border-radius:99px;overflow:hidden;margin-top:9px}.progress-fill{height:100%;background:var(--teal);border-radius:99px;transition:width .25s}.stage-list{display:grid;gap:13px}.stage{display:grid;grid-template-columns:56px 1fr auto;gap:13px;align-items:center;background:white;border:1px solid var(--line);border-radius:19px;padding:14px;box-shadow:var(--shadow)}.stage.locked{opacity:.68;background:#f0f5f3}.stage-icon{width:54px;height:54px;border-radius:17px;background:var(--teal2);display:grid;place-items:center;font-size:27px}.stage.locked .stage-icon{background:#e7ecea}.stage h3{margin:0 0 3px;font-size:1.04rem}.stage p{margin:0;color:var(--muted);font-size:.88rem}.stage-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}.mini{font-size:.77rem;font-weight:800;background:#f1f7f5;padding:4px 7px;border-radius:7px}.primary,.secondary,.danger{padding:11px 15px;border-radius:12px;font-weight:900;transition:transform .1s}.primary{background:var(--teal);color:white}.primary:active,.secondary:active{transform:scale(.98)}.primary:disabled{background:#a6bcb7;cursor:not-allowed;opacity:.85}.secondary{background:var(--teal2);color:var(--teal)}.danger{background:#ffeaeb;color:#a62e36}.tabs{position:fixed;z-index:6;bottom:0;left:0;right:0;display:flex;justify-content:center;gap:4px;background:#ffffffed;backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 8px max(8px,env(safe-area-inset-bottom))}.tabs button{flex:1;max-width:170px;padding:9px 4px;border-radius:12px;background:transparent;color:var(--muted);font-size:.78rem;font-weight:850}.tabs button.active{background:var(--teal2);color:var(--teal)}.tabs span{display:block;font-size:1.2rem}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.friend{display:flex;align-items:center;gap:12px}.avatar{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:#fce8d2;font-size:25px}.friend-info{flex:1;min-width:0}.friend-info strong{display:block}.friend-info small{color:var(--muted)}.rank{font-weight:950;color:var(--teal)}.quiz-shell{max-width:700px;margin:0 auto}.quiz-top{display:flex;align-items:center;gap:12px;margin-bottom:20px}.quiz-progress{flex:1}.close-btn{background:#edf4f1;border-radius:50%;width:40px;height:40px;font-size:20px}.question-card{background:white;border:1px solid var(--line);border-radius:23px;padding:22px;box-shadow:var(--shadow)}.question-card h2{font-size:clamp(1.3rem,4vw,1.9rem);margin:8px 0 18px}.question-type{font-size:.75rem;letter-spacing:1px;text-transform:uppercase;color:var(--teal);font-weight:950}.options{display:grid;gap:10px}.option{border:2px solid var(--line);border-radius:14px;padding:13px;text-align:left;background:white;font-weight:750;color:var(--ink);width:100%;touch-action:manipulation}.option:disabled{opacity:1;cursor:default}.option.selected{border-color:var(--teal);background:var(--teal2)}.option.correct{border-color:#3a9c68;background:#e3f8e9}.option.wrong{border-color:var(--red);background:#ffebec}.feedback{padding:12px;border-radius:12px;margin-top:14px;font-weight:800}.feedback.good{background:#e3f8e9;color:#17633b}.feedback.bad{background:#ffebec;color:#a62e36}.quiz-actions{display:flex;justify-content:flex-end;margin-top:18px}.profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}.metric{padding:15px;border:1px solid var(--line);border-radius:16px;background:white}.metric strong{display:block;font-size:1.5rem}.metric span{font-size:.86rem;color:var(--muted)}.empty{text-align:center;padding:28px;color:var(--muted)}footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:25px}.welcome{position:fixed;inset:0;z-index:20;min-height:100vh;display:grid;place-items:center;text-align:center;padding:32px 18px;background:radial-gradient(circle at 80% 20%,#d7f36a88,transparent 28%),linear-gradient(135deg,#e7faf4,#f7fbff)}.welcome h1{font-size:clamp(42px,10vw,72px);letter-spacing:-2px;margin:8px 0;color:#147d78;font-weight:950}.welcome-inner{max-width:560px;width:100%}.welcome .owl{font-size:76px}.director{font-size:12px;font-weight:900;letter-spacing:.5px}.mood-panel{margin-top:16px}.mood-row{display:flex;align-items:center;gap:14px}.mood-face{font-size:55px;min-width:65px;text-align:center}.mood-select{display:block;width:100%;margin-top:8px}.sound-button{width:100%;margin-top:10px}.mood-face.pop{animation:pop .35s ease}@keyframes pop{50%{transform:scale(1.25) rotate(-5deg)}}
+@media(max-width:560px){header{padding:10px 12px}.brand{font-size:1.1rem}.brandmark{width:34px;height:34px}.stats{gap:5px}.pill{padding:6px 7px;font-size:.78rem}.hero{padding:19px}.mascot{font-size:57px}.stage{grid-template-columns:46px 1fr;gap:10px}.stage-icon{width:46px;height:46px}.stage>button{grid-column:2;justify-self:start}.stage p{font-size:.83rem}.section-head{align-items:start;flex-direction:column}.question-card{padding:17px}}
 </style>
 </head>
 <body>
-<header>
-  <strong>🟢 FLUENTO</strong>
-  <div class="stats">
-    <span>⚡ <b id="xp">0</b> XP</span>
-    <span>❤️ <b id="hearts">5</b></span>
-  </div>
-</header>
-
+<header><div class="brand"><div class="brandmark">F</div>Fluento</div><div class="stats"><div class="pill">🔥 <b id="streak">1</b></div><div class="pill">⚡ <b id="xp">0</b> XP</div><div class="pill">❤️ <b id="hearts">5</b></div></div></header>
 <main id="app"></main>
-
-<nav>
-  <button onclick="showHome()">🏠 Home</button>
-  <button onclick="showLessons()">📚 Learn</button>
-  <button onclick="showMood()">😊 Ollie</button>
-  <button onclick="showProfile()">🏆 Profile</button>
-</nav>
-
+<div id="welcomeScreen" class="welcome" style="display:none"><div class="welcome-inner"><div class="director">DIRECTOR: NIRMIT</div><div class="owl" id="welcomeFace">🦉</div><h1>FLUENTO</h1><h2>Learn a little. Grow every day.</h2><p id="welcomeMessage">Languages, levels, practice and rewards — one lesson at a time.</p><button class="primary" onclick="enterFluento()">Start learning →</button></div></div>
+<nav class="tabs" aria-label="Main navigation"><button data-tab="learn" class="active"><span>🗺️</span>Learn</button><button data-tab="friends"><span>👥</span>Friends</button><button data-tab="quests"><span>🎯</span>Quests</button><button data-tab="profile"><span>🏆</span>Profile</button></nav>
 <script>
-"use strict";
-
-const STORAGE_KEY = "fluento_complete_v1";
-
-const initialState = {
-  xp: 0,
-  hearts: 5,
-  completed: [],
-  lastVisit: 0,
-  sound: true,
-  override: "auto",
-  autoMood: "happy",
-  moodUntil: 0
+const courses={
+ Spanish:{flag:"🇪🇸",label:"Spanish",stages:[
+ {title:"First Words",desc:"Greetings, yes/no, and polite phrases",icon:"👋",lessons:[{q:"How do you say Hello in Spanish?",opts:["Hola","Adiós","Gracias","Agua"],a:"Hola",tip:"Hola means hello."},{q:"What does Gracias mean?",opts:["Please","Thank you","Good night","Friend"],a:"Thank you",tip:"Gracias means thank you."},{q:"Choose the Spanish word for water.",opts:["Pan","Agua","Casa","Libro"],a:"Agua",tip:"Agua means water."},{q:"What does Por favor mean?",opts:["Please","Goodbye","Sorry","Welcome"],a:"Please",tip:"Por favor means please."},{q:"Complete: Buenos ____ (Good morning).",opts:["días","libros","amigos","agua"],a:"días",tip:"Buenos días means good morning."}]},
+ {title:"People & Friends",desc:"Introduce yourself and meet people",icon:"🧑‍🤝‍🧑",lessons:[{q:"What does amigo mean?",opts:["Friend","School","Food","Book"],a:"Friend",tip:"Amigo means friend."},{q:"Me llamo Ana means…",opts:["I am hungry","My name is Ana","I am at home","See you tomorrow"],a:"My name is Ana",tip:"Me llamo… gives your name."},{q:"Choose How are you?",opts:["¿Cómo estás?","¿Dónde está?","Gracias","Buenas noches"],a:"¿Cómo estás?",tip:"¿Cómo estás? asks how someone is."},{q:"What is familia?",opts:["Family","City","Teacher","Water"],a:"Family",tip:"Familia means family."},{q:"What does Mucho gusto mean?",opts:["Nice to meet you","Good morning","I don't know","Goodbye"],a:"Nice to meet you",tip:"A phrase used when meeting someone."}]},
+ {title:"Food & Café",desc:"Order snacks and drinks",icon:"🥑",lessons:[{q:"What does pan mean?",opts:["Bread","Milk","Apple","Rice"],a:"Bread",tip:"Pan means bread."},{q:"Choose I want water.",opts:["Quiero agua","Tengo casa","Hola amigo","Soy libro"],a:"Quiero agua",tip:"Quiero means I want."},{q:"What does manzana mean?",opts:["Apple","Orange","Bread","Cheese"],a:"Apple",tip:"Manzana means apple."},{q:"Which word means milk?",opts:["Leche","Agua","Pan","Sal"],a:"Leche",tip:"Leche means milk."},{q:"Choose Good night.",opts:["Buenas noches","Buenos días","Por favor","Hasta luego"],a:"Buenas noches",tip:"Buenas noches means good night."}]}
+ ]},
+ English:{flag:"🇬🇧",label:"English",stages:[
+ {title:"Everyday Words",desc:"Greetings and useful basics",icon:"👋",lessons:[{q:"Choose a greeting.",opts:["Hello","Because","Under","Quickly"],a:"Hello",tip:"Hello is a greeting."},{q:"Opposite of cold?",opts:["Hot","Slow","Small","Quiet"],a:"Hot",tip:"Hot is the opposite of cold."},{q:"Complete: How ____ you?",opts:["are","is","am","be"],a:"are",tip:"The phrase is How are you?"},{q:"Choose the polite word.",opts:["Please","Never","Maybe","Under"],a:"Please",tip:"Please makes a request polite."},{q:"Plural of book?",opts:["Books","Bookes","Bookies","Book"],a:"Books",tip:"Add -s to most nouns."}]},
+ {title:"Build Sentences",desc:"Practice grammar and word order",icon:"🧱",lessons:[{q:"Choose the correct sentence.",opts:["She is happy.","She happy is.","Is happy she.","Happy she are."],a:"She is happy.",tip:"Use subject + verb + adjective."},{q:"Complete: They ____ playing.",opts:["are","is","am","be"],a:"are",tip:"Use are with they."},{q:"Past tense of go?",opts:["Went","Goed","Gone yesterday","Going"],a:"Went",tip:"Go → went → gone."},{q:"Choose the article: ____ apple.",opts:["An","A","The a","No article ever"],a:"An",tip:"Use an before a vowel sound."},{q:"Synonym of quick?",opts:["Fast","Late","Weak","Soft"],a:"Fast",tip:"Quick and fast are synonyms."}]},
+ {title:"Grammar Challenge",desc:"A little more practice",icon:"🚩",checkpoint:true,lessons:[{q:"Choose the correct form.",opts:["He doesn't like tea.","He don't likes tea.","He doesn't likes tea.","He not like tea."],a:"He doesn't like tea.",tip:"After doesn't, use the base verb."},{q:"Opposite of generous?",opts:["Selfish","Kind","Helpful","Giving"],a:"Selfish",tip:"Selfish is the opposite of generous."},{q:"Choose the correct question.",opts:["Where do you live?","Where you live?","Where does you live?","Where are live you?"],a:"Where do you live?",tip:"Use do with you in the present simple."},{q:"Past tense of teach?",opts:["Taught","Teached","Teaching","Teach"],a:"Taught",tip:"Teach → taught."},{q:"Choose correct punctuation.",opts:["Let's eat, Grandma!","Lets eat Grandma!","Let's eat Grandma","Lets eat, Grandma"],a:"Let's eat, Grandma!",tip:"Punctuation can change meaning."}]}
+ ]},
+ Hindi:{flag:"🇮🇳",label:"Hindi",stages:[{title:"शुरुआती शब्द",desc:"नमस्ते और रोज़ के शब्द",icon:"🙏",lessons:[{q:"नमस्ते का अर्थ क्या है?",opts:["अभिवादन","पानी","किताब","घर"],a:"अभिवादन",tip:"नमस्ते अभिवादन के लिए कहा जाता है।"},{q:"पानी का अर्थ?",opts:["Water","Book","Friend","School"],a:"Water",tip:"पानी = Water"},{q:"धन्यवाद का अर्थ?",opts:["Thank you","Goodbye","Please","Friend"],a:"Thank you",tip:"धन्यवाद = Thank you"},{q:"मित्र का अर्थ?",opts:["Friend","Food","House","Book"],a:"Friend",tip:"मित्र = Friend"},{q:"घर का अर्थ?",opts:["House","School","Water","Day"],a:"House",tip:"घर = House"}]}]}
 };
-
-let state;
-try {
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-  state = {...initialState, ...saved};
-  if (!Array.isArray(state.completed)) state.completed = [];
-} catch (e) {
-  state = {...initialState};
-}
-
-const moods = {
-  happy: {
-    face: "😊",
-    name: "Happy",
-    message: "You're doing great! Keep learning!",
-    sound: [523, 659, 784]
-  },
-  sad: {
-    face: "🥺",
-    name: "Sad",
-    message: "That's okay! Mistakes help us learn.",
-    sound: [392, 330]
-  },
-  excited: {
-    face: "🤩",
-    name: "Excited",
-    message: "WOW! You're making amazing progress!",
-    sound: [523, 659, 784, 1047]
-  },
-  angry: {
-    face: "😠",
-    name: "Grumpy",
-    message: "Grrr! That was tricky. Let's try again!",
-    sound: [220, 180]
-  }
-};
-
-const questions = [
-  {q:"How do you say Hello in Spanish?",o:["Hola","Gracias","Agua","Adiós"],a:0,tip:"Hola means Hello."},
-  {q:"What does Gracias mean?",o:["Please","Thank you","Water","Goodbye"],a:1,tip:"Gracias means Thank you."},
-  {q:"Which Spanish word means water?",o:["Casa","Libro","Agua","Amigo"],a:2,tip:"Agua means Water."},
-  {q:"What does Amigo mean?",o:["Friend","School","Food","Book"],a:0,tip:"Amigo means Friend."},
-  {q:"How do you say Please in Spanish?",o:["Adiós","Por favor","Agua","Hola"],a:1,tip:"Por favor means Please."},
-  {q:"What does Buenos días mean?",o:["Good morning","Good night","Thank you","Goodbye"],a:0,tip:"Buenos días means Good morning."},
-  {q:"What does Familia mean?",o:["Family","Water","Friend","School"],a:0,tip:"Familia means Family."},
-  {q:"Which word means Goodbye?",o:["Hola","Gracias","Adiós","Sí"],a:2,tip:"Adiós means Goodbye."}
-];
-
-let audioContext = null;
-let questionIndex = 0;
-let selectedAnswer = -1;
-let questionAnswered = false;
-
-function save() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (e) {
-    console.warn("Progress could not be saved.", e);
-  }
-}
-
-function getMood() {
-  if (state.override !== "auto" && moods[state.override]) {
-    return state.override;
-  }
-  if (Date.now() < state.moodUntil && moods[state.autoMood]) {
-    return state.autoMood;
-  }
-  return "happy";
-}
-
-function playSound(kind = "happy") {
-  if (!state.sound) return;
-
-  try {
-    const AudioAPI = window.AudioContext || window.webkitAudioContext;
-    if (!AudioAPI) {
-      showNotice("Your browser does not support audio.");
-      return;
-    }
-
-    if (!audioContext || audioContext.state === "closed") {
-      audioContext = new AudioAPI();
-    }
-
-    if (audioContext.state === "suspended") {
-      audioContext.resume().then(() => makeSound(kind)).catch(() => {
-        showNotice("Tap Test Sound again to enable audio.");
-      });
-      return;
-    }
-
-    makeSound(kind);
-  } catch (e) {
-    showNotice("Sound could not start. Tap Test Sound again.");
-  }
-}
-
-function makeSound(kind) {
-  if (!audioContext || audioContext.state !== "running") return;
-
-  const frequencies = moods[kind]?.sound || moods.happy.sound;
-
-  frequencies.forEach((frequency, index) => {
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    const start = audioContext.currentTime + index * 0.14;
-
-    oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(frequency, start);
-
-    gain.gain.setValueAtTime(0.001, start);
-    gain.gain.exponentialRampToValueAtTime(0.12, start + 0.025);
-    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.24);
-
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-    oscillator.start(start);
-    oscillator.stop(start + 0.25);
-  });
-}
-
-function showNotice(message) {
-  const el = document.getElementById("notice");
-  if (el) el.textContent = message;
-}
-
-function testSound() {
-  if (!state.sound) state.sound = true;
-  save();
-
-  try {
-    const AudioAPI = window.AudioContext || window.webkitAudioContext;
-    if (!AudioAPI) {
-      showNotice("Audio is unavailable in this browser.");
-      return;
-    }
-
-    if (!audioContext || audioContext.state === "closed") {
-      audioContext = new AudioAPI();
-    }
-
-    audioContext.resume().then(() => {
-      makeSound("excited");
-      showNotice("🔊 Sound test played! Turn up your media volume.");
-    }).catch(() => {
-      showNotice("Tap Test Sound again to allow audio.");
-    });
-  } catch (e) {
-    showNotice("Audio could not start in this browser.");
-  }
-
-  showSoundButton();
-}
-
-function showSoundButton() {
-  const button = document.getElementById("soundToggle");
-  if (button) button.textContent = state.sound ? "🔊 Sound ON" : "🔇 Sound OFF";
-}
-
-function toggleSound() {
-  state.sound = !state.sound;
-  save();
-  showSoundButton();
-
-  if (state.sound) testSound();
-  else showNotice("Sound effects are turned off.");
-}
-
-function react(mood, duration = 15000, sound = true) {
-  if (!moods[mood]) return;
-
-  state.autoMood = mood;
-  state.moodUntil = Date.now() + duration;
-  save();
-  updateOllieFace();
-
-  if (sound) playSound(mood);
-}
-
-function updateOllieFace() {
-  const mood = getMood();
-  const info = moods[mood];
-
-  document.querySelectorAll(".mascot, #ollieFace").forEach(el => {
-    el.textContent = info.face;
-    el.setAttribute("aria-label", "Ollie is " + info.name);
-    el.style.transform = "scale(1.15)";
-    setTimeout(() => {
-      el.style.transform = "";
-    }, 250);
-  });
-
-  document.querySelectorAll(".moodMessage").forEach(el => {
-    el.textContent = info.message;
-  });
-
-  const selector = document.getElementById("moodChoice");
-  if (selector && document.activeElement !== selector) {
-    selector.value = state.override;
-  }
-}
-
-function setMood(mood) {
-  state.override = mood;
-  save();
-  updateOllieFace();
-
-  if (mood !== "auto") {
-    playSound(mood);
-  } else {
-    showNotice("Automatic mood is enabled.");
-  }
-}
-
-function moodHTML() {
-  const mood = getMood();
-  return `
-    <section class="card">
-      <div style="display:flex;align-items:center;gap:15px">
-        <div class="face" id="ollieFace" role="img" aria-label="Ollie">
-          ${moods[mood].face}
-        </div>
-        <div>
-          <h3 style="margin:0">Ollie says...</h3>
-          <p class="moodMessage">${moods[mood].message}</p>
-        </div>
-      </div>
-
-      <label for="moodChoice"><b>Test Ollie's mood</b></label>
-      <select id="moodChoice" onchange="setMood(this.value)">
-        <option value="auto" ${state.override==="auto"?"selected":""}>✨ Automatic</option>
-        <option value="happy" ${state.override==="happy"?"selected":""}>😊 Happy</option>
-        <option value="sad" ${state.override==="sad"?"selected":""}>🥺 Sad</option>
-        <option value="excited" ${state.override==="excited"?"selected":""}>🤩 Excited</option>
-        <option value="angry" ${state.override==="angry"?"selected":""}>😠 Angry</option>
-      </select>
-
-      <button class="secondary full" id="soundToggle" onclick="toggleSound()">
-        ${state.sound?"🔊 Sound ON":"🔇 Sound OFF"}
-      </button>
-      <button class="full" onclick="testSound()">🔔 Test Sound</button>
-      <p id="notice" class="muted" aria-live="polite"></p>
-    </section>`;
-}
-
-function updateStats() {
-  document.getElementById("xp").textContent = state.xp;
-  document.getElementById("hearts").textContent = state.hearts;
-}
-
-function showHome() {
-  const message = state.welcomeBack
-    ? "You're back! Let's learn something amazing together!"
-    : "A little practice every day helps you grow!";
-
-  document.getElementById("app").innerHTML = `
-    <section class="hero">
-      <div class="heroText">
-        <small>YOUR LEARNING COMPANION</small>
-        <h1>Welcome to FLUENTO!</h1>
-        <p>${message}</p>
-        <button onclick="showLessons()">Start learning →</button>
-      </div>
-      <div class="mascot" role="img" aria-label="Ollie">${moods[getMood()].face}</div>
-    </section>
-
-    ${moodHTML()}
-
-    <section class="card">
-      <h2>📚 Your learning journey</h2>
-      <p>Questions completed: ${state.completed.length} / ${questions.length}</p>
-      <div class="progress">
-        <div style="width:${state.completed.length/questions.length*100}%"></div>
-      </div>
-      <button class="full" onclick="showLessons()">Continue learning</button>
-    </section>
-  `;
-  updateStats();
-}
-
-function showMood() {
-  document.getElementById("app").innerHTML = `
-    <section class="hero">
-      <div class="heroText">
-        <h1>Meet Ollie!</h1>
-        <p>Your learning buddy reacts to your progress.</p>
-      </div>
-      <div class="mascot" role="img" aria-label="Ollie">${moods[getMood()].face}</div>
-    </section>
-    ${moodHTML()}
-  `;
-  updateStats();
-}
-
-function showLessons() {
-  document.getElementById("app").innerHTML = `
-    <h1>📚 Mini lessons</h1>
-    <p class="muted">Learn Spanish words. Choose an answer and check it.</p>
-    <section class="card">
-      <p>Progress: ${state.completed.length}/${questions.length}</p>
-      <div class="progress">
-        <div style="width:${state.completed.length/questions.length*100}%"></div>
-      </div>
-      ${questions.map((q, i) => `
-        <div style="padding:13px 0;border-bottom:1px solid var(--line)">
-          <b>${i+1}. ${q.q}</b>
-          <p class="muted">${state.completed.includes(i)?"✅ Completed":"Not completed yet"}</p>
-          <button class="secondary full" onclick="startQuestion(${i})">
-            ${state.completed.includes(i)?"Practice again":"Start question"}
-          </button>
-        </div>
-      `).join("")}
-    </section>
-  `;
-  updateStats();
-}
-
-function startQuestion(index) {
-  questionIndex = index;
-  selectedAnswer = -1;
-  questionAnswered = false;
-
-  const q = questions[index];
-
-  document.getElementById("app").innerHTML = `
-    <section class="card">
-      <p class="muted">Question ${index+1} of ${questions.length}</p>
-      <div class="progress">
-        <div style="width:${(index+1)/questions.length*100}%"></div>
-      </div>
-      <h2>${q.q}</h2>
-      <div id="options">
-        ${q.o.map((option, i) => `
-          <button class="option" onclick="chooseAnswer(${i})">${option}</button>
-        `).join("")}
-      </div>
-      <p id="feedback" aria-live="polite"></p>
-      <button id="checkButton" class="full" onclick="checkAnswer()" disabled>Check answer</button>
-      <button class="secondary full" onclick="showLessons()">Back to lessons</button>
-      ${moodHTML()}
-    </section>
-  `;
-  updateStats();
-}
-
-function chooseAnswer(index) {
-  if (questionAnswered) return;
-  selectedAnswer = index;
-
-  document.querySelectorAll("#options .option").forEach((button, i) => {
-    button.classList.toggle("selected", i === index);
-  });
-
-  document.getElementById("checkButton").disabled = false;
-}
-
-function checkAnswer() {
-  if (selectedAnswer < 0 || questionAnswered) return;
-
-  questionAnswered = true;
-  const q = questions[questionIndex];
-  const correct = selectedAnswer === q.a;
-
-  document.querySelectorAll("#options .option").forEach((button, i) => {
-    button.disabled = true;
-    if (i === q.a) button.classList.add("correct");
-    if (i === selectedAnswer && !correct) button.classList.add("wrong");
-  });
-
-  const feedback = document.getElementById("feedback");
-
-  if (correct) {
-    feedback.textContent = "Correct! +10 XP. " + q.tip;
-    state.xp += 10;
-
-    if (!state.completed.includes(questionIndex)) {
-      state.completed.push(questionIndex);
-    }
-
-    if (state.completed.length === questions.length) {
-      react("excited", 60000);
-      feedback.textContent += " 🎉 You completed every question!";
-    } else {
-      react("happy", 20000);
-    }
-  } else {
-    feedback.textContent = "Not quite. " + q.tip;
-    state.hearts = Math.max(0, state.hearts - 1);
-    react("sad", 20000);
-  }
-
-  save();
-  updateStats();
-
-  const button = document.getElementById("checkButton");
-  button.disabled = false;
-  button.textContent = "Continue";
-  button.onclick = showLessons;
-}
-
-function showProfile() {
-  document.getElementById("app").innerHTML = `
-    <section class="card">
-      <h1>🏆 Your profile</h1>
-      <h2>⚡ ${state.xp} XP</h2>
-      <p>Questions completed: ${state.completed.length}/${questions.length}</p>
-      <p>❤️ Hearts remaining: ${state.hearts}</p>
-      <button class="full" onclick="showLessons()">Continue learning</button>
-      <button class="secondary full" onclick="showMood()">Test Ollie's moods</button>
-    </section>
-    ${moodHTML()}
-  `;
-  updateStats();
-}
-
-function initialize() {
-  const now = Date.now();
-  const previous = Number(state.lastVisit || 0);
-  const daysAway = previous ? (now - previous) / 86400000 : 0;
-
-  state.welcomeBack = daysAway >= 3;
-
-  
-  if (state.welcomeBack) {
-    state.autoMood = "excited";
-    state.moodUntil = now + 60000;
-  }
-
-  state.lastVisit = now;
-  save();
-  showHome();
-
-  if (state.welcomeBack) {
-    // Sound will work when the user taps Test Sound.
-    updateOllieFace();
-  }
-}
-
-initialize();
+const extraWords={French:{flag:"🇫🇷",pairs:[["Bonjour","Hello"],["Merci","Thank you"],["Au revoir","Goodbye"],["S’il vous plaît","Please"],["Oui","Yes"]]},German:{flag:"🇩🇪",pairs:[["Hallo","Hello"],["Danke","Thank you"],["Tschüss","Goodbye"],["Bitte","Please"],["Ja","Yes"]]},Italian:{flag:"🇮🇹",pairs:[["Ciao","Hello"],["Grazie","Thank you"],["Arrivederci","Goodbye"],["Per favore","Please"],["Sì","Yes"]]},Japanese:{flag:"🇯🇵",pairs:[["こんにちは","Hello"],["ありがとう","Thank you"],["さようなら","Goodbye"],["お願いします","Please"],["はい","Yes"]]}};
+for(const [name,c] of Object.entries(extraWords)){courses[name]={flag:c.flag,label:name,stages:[{title:"Starter Words",desc:"Learn useful everyday words",icon:"🌱",lessons:c.pairs.map(([word,meaning])=>({q:`What does “${word}” mean?`,opts:[meaning,...c.pairs.map(x=>x[1]).filter(x=>x!==meaning).slice(0,3)],a:meaning,tip:`${word} means ${meaning}.`}))}]}}
+const initial={course:"Spanish",xp:0,hearts:5,streak:1,done:{},earned:[],tab:"learn",name:"Learner",friends:[{name:"Aarav",emoji:"🦊",xp:120},{name:"Mira",emoji:"🐼",xp:95},{name:"Kabir",emoji:"🐯",xp:80}],questsClaimed:[],userId:"",welcomeSeen:false,lastVisitAt:0,lastDay:"",soundOn:true,moodOverride:"auto",autoMood:"happy",moodUntil:0};
+let state;try{state={...initial,...JSON.parse(localStorage.getItem("fluento-save")||"{}")}}catch{state={...initial}}let current=null,qi=0,score=0,selected=null;
+const moods={happy:{face:"😊",message:"You're doing great! Keep learning!"},sad:{face:"🥺",message:"That's okay! Every mistake helps you learn."},excited:{face:"🤩",message:"WOW! You're making amazing progress!"},angry:{face:"😠",message:"Grrr! Tricky question! Let's try again."}};
+function save(){try{localStorage.setItem("fluento-save",JSON.stringify(state))}catch(e){}updateStats()}
+function updateStats(){document.getElementById("xp").textContent=state.xp;document.getElementById("hearts").textContent=state.hearts;document.getElementById("streak").textContent=state.streak}
+function getMood(){if(state.moodOverride&&state.moodOverride!=="auto")return state.moodOverride;if(state.moodUntil>Date.now()&&moods[state.autoMood])return state.autoMood;return "happy"}
+function setMood(m){state.moodOverride=m;save();render();if(m!=="auto")playSound(m)}
+let audioContext=null;function playSound(kind="welcome"){if(state.soundOn===false)return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;audioContext ||= new AC();if(audioContext.state==="suspended")audioContext.resume();const notes=kind==="excited"?[523,659,784]:kind==="sad"?[392,330]:kind==="angry"?[220,180]:[523,659];notes.forEach((hz,i)=>{const osc=audioContext.createOscillator(),gain=audioContext.createGain(),t=audioContext.currentTime+i*.12;osc.type="sine";osc.frequency.value=hz;gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.10,t+.025);gain.gain.exponentialRampToValueAtTime(.0001,t+.19);osc.connect(gain);gain.connect(audioContext.destination);osc.start(t);osc.stop(t+.2)})}catch(e){}}
+function toggleSound(){state.soundOn=state.soundOn===false;save();render();if(state.soundOn)playSound("welcome")}
+function moodPanelHTML(){const mood=getMood(),info=moods[mood];return `<section class="panel mood-panel"><div class="mood-row"><div class="mood-face" id="moodFace">${info.face}</div><div><b>Ollie says...</b><div>${info.message}</div><span class="mini">${state.welcomeBack?"Welcome-back bonus reaction!":"Your learning companion"}</span></div></div><label for="moodSelect"><b>Test Ollie's mood</b></label><select class="mood-select" id="moodSelect" onchange="setMood(this.value)"><option value="auto" ${state.moodOverride==="auto"?"selected":""}>✨ Automatic</option>${Object.keys(moods).map(m=>`<option value="${m}" ${state.moodOverride===m?"selected":""}>${moods[m].face} ${m[0].toUpperCase()+m.slice(1)}</option>`).join("")}</select><button class="secondary sound-button" onclick="toggleSound()">${state.soundOn===false?"🔇 Sound off":"🔊 Sound on"}</button></section>`}
+function initializeVisit(){const now=Date.now(),prev=Number(state.lastVisitAt||0),days=prev?Math.floor((now-prev)/86400000):0;state.welcomeBack=days>=3;if(state.welcomeBack){state.autoMood="excited";state.moodUntil=now+60000;document.getElementById("welcomeFace").textContent=moods.excited.face;document.getElementById("welcomeMessage").textContent="You're back after a break! Ollie is excited to learn with you again."}else{document.getElementById("welcomeFace").textContent=moods.happy.face;document.getElementById("welcomeMessage").textContent="Languages, levels, practice and rewards — one lesson at a time."}state.lastVisitAt=now;save()}
+function enterFluento(){state.welcomeSeen=true;if(!state.userId)state.userId="FL-"+Math.random().toString(36).slice(2,8).toUpperCase();save();render();playSound(state.welcomeBack?"excited":"welcome")}
+function getCourse(){return courses[state.course]||courses.Spanish}function doneKey(i){return state.course+"-"+i}function isDone(i){return !!state.done[doneKey(i)]}function isUnlocked(i){return i===0||isDone(i-1)}function currentStage(){return getCourse().stages.filter((s,i)=>isDone(i)).length}function stageLabel(){return "Stage "+Math.min(currentStage()+1,getCourse().stages.length)+" · "+getCourse().label}
+function setTab(tab){state.tab=tab;save();render()}document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+function render(){updateStats();const welcome=document.getElementById("welcomeScreen");if(welcome)welcome.style.display=state.welcomeSeen?"none":"grid";const app=document.getElementById("app");if(state.tab==="learn")app.innerHTML=learnHTML();else if(state.tab==="friends")app.innerHTML=friendsHTML();else if(state.tab==="quests")app.innerHTML=questsHTML();else app.innerHTML=profileHTML();document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===state.tab))}
+function learnHTML(){const c=getCourse(),finished=c.stages.filter((s,i)=>isDone(i)).length,pct=Math.round(finished/c.stages.length*100);return `<section class="hero"><div><div class="eyebrow">YOUR DAILY LANGUAGE QUEST</div><h1>Small steps.<br>Big fluency.</h1><p>Learn at your pace with stages, checkpoints, and Ollie cheering you on.</p></div><div class="mascot" aria-label="Ollie the owl">${moods[getMood()].face}</div></section>${moodPanelHTML()}<div class="section-head"><div><h2>Your learning path</h2><div class="muted">${c.flag} ${c.label} · ${finished}/${c.stages.length} stages completed</div></div></div><div class="panel"><div class="course-row"><label for="courseSelect"><b>Learning language</b></label><select id="courseSelect">${Object.keys(courses).map(k=>`<option ${k===state.course?"selected":""}>${k}</option>`).join("")}</select><span class="muted">Choose a course</span></div><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div><div class="muted" style="margin-top:7px">${pct}% path complete</div></div><div class="section-head"><h2>Stages</h2><span class="muted">Complete all questions in a stage to unlock the next</span></div><div class="stage-list">${c.stages.map((s,i)=>{const d=isDone(i),u=isUnlocked(i);return `<article class="stage ${u?"":"locked"}"><div class="stage-icon">${d?"✅":u?s.icon:"🔒"}</div><div><h3>${i+1}. ${s.title}</h3><p>${s.desc}</p><div class="stage-meta"><span class="mini">${s.lessons.length} questions</span><span class="mini">⭐ ${s.lessons.length*10} XP</span>${d?'<span class="mini">Completed</span>':""}</div></div><button class="${u?"primary":"secondary"}" ${u?"":"disabled"} onclick="startLesson(${i})">${d?"Practice":u?"Start":"Locked"}</button></article>`}).join("")}</div><footer>Fluento · Learn a little every day.</footer>`}
+function friendsHTML(){const list=[{name:state.name||"You",emoji:"🦉",xp:state.xp,you:true},...state.friends].sort((a,b)=>b.xp-a.xp);return `<div class="section-head"><div><h2>Friends Circle 👥</h2><div class="muted">Celebrate progress together.</div></div></div><section class="hero"><div><div class="eyebrow">THIS WEEK</div><h1>Every XP counts!</h1><p>Demo friends are shown locally; online accounts are not connected.</p></div><div class="mascot">🦉</div></section><div class="panel" style="margin-top:15px"><h3>Your Fluento ID</h3><p><b>${state.userId||"Create your ID"}</b></p><button class="primary" onclick="copyId()">Share / copy my ID</button><p class="muted">Your progress is saved on this device.</p></div><div class="section-head"><h2>Demo leaderboard</h2></div><div class="panel">${list.map((f,i)=>`<div class="friend" style="padding:11px 0;border-bottom:1px solid var(--line)"><div class="avatar">${f.emoji}</div><div class="friend-info"><strong>${escapeText(f.name)} ${f.you?"(you)":""}</strong><small>${f.you?"Your learning journey":"Demo learner"}</small></div><div class="rank">#${i+1} · ${f.xp} XP</div></div>`).join("")}</div><div class="section-head"><h2>Add a demo friend</h2></div><div class="panel"><div class="course-row"><input id="friendName" placeholder="Friend's nickname" maxlength="20" style="flex:1;min-width:140px;border:1px solid var(--line);padding:11px;border-radius:12px"><button class="primary" onclick="addFriend()">＋ Add friend</button></div></div>`}
+function questsHTML(){const completed=getCourse().stages.filter((s,i)=>isDone(i)).length,claimable=completed>=1&&!state.questsClaimed.includes("explorer");return `<div class="section-head"><div><h2>Daily quests 🎯</h2><div class="muted">Tiny goals build a lasting habit.</div></div></div><div class="cards"><div class="panel"><div style="font-size:28px">📚</div><h3>Lesson explorer</h3><p class="muted">Complete one stage.</p><p><b>${Math.min(completed,1)}/1 stage</b></p><button class="${claimable?"primary":"secondary"}" ${claimable?"":"disabled"} onclick="claimQuest()">Claim +20 XP</button></div><div class="panel"><div style="font-size:28px">🧠</div><h3>Curious mind</h3><p class="muted">Collect XP through practice.</p><p><b>${state.xp} XP collected</b></p><div class="progress-track"><div class="progress-fill" style="width:${Math.min(100,state.xp)}%"></div></div></div><div class="panel"><div style="font-size:28px">🔥</div><h3>Come back tomorrow</h3><p class="muted">Keep your streak going.</p><p><b>${state.streak} day streak</b></p></div></div>`}
+function profileHTML(){const completed=Object.keys(state.done).filter(k=>state.done[k]).length;return `<div class="panel"><h2>🏆 Your profile</h2><div class="course-row"><div class="mascot" style="font-size:55px">${moods[getMood()].face}</div><div style="flex:1"><label for="playerName"><b>Your nickname</b></label><input id="playerName" value="${escapeAttr(state.name||"Learner")}" maxlength="24" style="display:block;width:100%;margin-top:6px;padding:11px;border:1px solid var(--line);border-radius:12px"><button class="secondary" style="margin-top:9px" onclick="saveName()">Save nickname</button></div></div></div><div class="section-head"><h2>Your stats</h2></div><div class="profile-grid"><div class="metric"><strong>⚡ ${state.xp}</strong><span>Total XP</span></div><div class="metric"><strong>🔥 ${state.streak}</strong><span>Day streak</span></div><div class="metric"><strong>✅ ${completed}</strong><span>Stages completed</span></div><div class="metric"><strong>🏅 ${state.earned.length}</strong><span>Badges earned</span></div></div><div class="section-head"><h2>Settings</h2></div><div class="panel"><p class="muted">Sounds, moods and progress are saved in this browser. Clearing browser data may erase progress.</p><button class="secondary" onclick="toggleSound()">${state.soundOn===false?"🔇 Turn sound on":"🔊 Turn sound off"}</button> <button class="danger" onclick="resetProgress()">Reset progress</button></div>`}
+function escapeText(s){return String(s).replace(/[&<>\"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}function escapeAttr(s){return escapeText(s).replace(/'/g,"&#39;")}
+document.addEventListener("change",e=>{if(e.target.id==="courseSelect"){state.course=e.target.value;save();render()}});
+function startLesson(i){if(!isUnlocked(i))return;current=i;qi=0;score=0;selected=null;showQuestion()}
+function showQuestion(){const app=document.getElementById("app"),s=getCourse().stages[current],q=s.lessons[qi];app.innerHTML=`<div class="quiz-shell"><div class="quiz-top"><button class="close-btn" onclick="exitQuiz()" aria-label="Exit lesson">×</button><div class="quiz-progress"><div class="progress-track"><div class="progress-fill" style="width:${qi/s.lessons.length*100}%"></div></div></div><b>❤️ ${state.hearts}</b></div><div class="question-card"><div class="question-type">Stage ${current+1} · Question ${qi+1}/${s.lessons.length}</div><h2>${q.q}</h2><div class="options">${q.opts.map(o=>`<button class="option" type="button" onclick="chooseAnswer(this)">${escapeText(o)}</button>`).join("")}</div><div id="feedback"></div><div class="quiz-actions"><button class="primary" id="checkBtn" onclick="checkAnswer()" disabled>Check answer</button></div></div><p class="muted" style="text-align:center;margin-top:16px">Ollie says: “You can do it. One question at a time!” 🦉</p></div>`}
+function chooseAnswer(button){if(!button||button.disabled)return;selected=button.textContent.trim();document.querySelectorAll(".option").forEach(b=>b.classList.toggle("selected",b===button));const btn=document.getElementById("checkBtn");if(btn)btn.disabled=false}
+function checkAnswer(){if(typeof selected!=="string"||!selected)return;const q=getCourse().stages[current].lessons[qi],chosen=selected,ok=chosen===q.a;state.autoMood=ok?"happy":"sad";state.moodUntil=Date.now()+15000;playSound(state.autoMood);const fb=document.getElementById("feedback");fb.className="feedback "+(ok?"good":"bad");fb.textContent=(ok?"Correct! +10 XP. ":"Not quite. ")+q.tip;document.querySelectorAll(".option").forEach(b=>{b.disabled=true;if(b.textContent===q.a)b.classList.add("correct");else if(b.textContent===chosen)b.classList.add("wrong")});const btn=document.getElementById("checkBtn");btn.textContent=qi===getCourse().stages[current].lessons.length-1?"Finish stage":"Continue";btn.onclick=nextQuestion;selected=ok?"__correct__":"__incorrect__"}
+function nextQuestion(){if(selected==="__correct__"){score++;state.xp+=10}else if(selected==="__incorrect__"){state.hearts=Math.max(0,state.hearts-1)}qi++;selected=null;save();if(qi<getCourse().stages[current].lessons.length)showQuestion();else finishLesson()}
+function finishLesson(){const key=doneKey(current),wasDone=!!state.done[key],s=getCourse().stages[current];if(!wasDone){state.done[key]=true;state.xp+=Math.max(0,score*2);if(!state.earned.includes("first"))state.earned.push("first");if(s.checkpoint&&!state.earned.includes("checkpoint"))state.earned.push("checkpoint")}state.autoMood="excited";state.moodUntil=Date.now()+30000;save();playSound("excited");document.getElementById("app").innerHTML=`<div class="quiz-shell"><div class="question-card" style="text-align:center"><div style="font-size:74px">${moods.excited.face}</div><div class="eyebrow" style="color:var(--teal)">STAGE COMPLETE</div><h2>${score>=s.lessons.length*.75?"Brilliant work!":"Nice effort — keep practising!"}</h2><p>You answered <b>${score} of ${s.lessons.length}</b> questions correctly.</p><div class="profile-grid"><div class="metric"><strong>+${score*12}</strong><span>XP earned this round</span></div><div class="metric"><strong>${Math.round(score/s.lessons.length*100)}%</strong><span>Accuracy</span></div></div><p class="muted">Ollie says: “Every try helps you grow!”</p><button class="primary" style="width:100%;margin-top:10px" onclick="state.tab='learn';save();render()">Back to learning path</button>${current+1<getCourse().stages.length&&isUnlocked(current+1)?`<button class="secondary" style="width:100%;margin-top:9px" onclick="startLesson(${current+1})">Continue to next stage →</button>`:""}</div></div>`}
+function exitQuiz(){current=null;state.tab="learn";render()}function copyId(){if(!state.userId)state.userId="FL-"+Math.random().toString(36).slice(2,8).toUpperCase();save();const txt=state.userId+" | "+stageLabel();if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(()=>alert("Fluento ID copied!")).catch(()=>prompt("Copy your Fluento ID:",txt));else prompt("Copy your Fluento ID:",txt)}
+function addFriend(){const el=document.getElementById("friendName"),name=el.value.trim();if(!name)return el.focus();if(state.friends.some(f=>f.name.toLowerCase()===name.toLowerCase()))return alert("That nickname is already in your demo circle.");state.friends.push({name,emoji:["🐸","🐨","🦊","🐼","🐯","🐧"][state.friends.length%6],xp:Math.floor(Math.random()*90)});save();render()}
+function claimQuest(){if(state.questsClaimed.includes("explorer"))return;state.questsClaimed.push("explorer");state.xp+=20;save();render()}function saveName(){state.name=document.getElementById("playerName").value.trim()||"Learner";save();render()}
+function resetProgress(){if(confirm("Reset your XP, stages and local progress? This cannot be undone.")){state={...initial,friends:[...initial.friends],done:{},earned:[],questsClaimed:[],userId:"",welcomeSeen:true};save();render()}}
+initializeVisit();updateStats();render();
 </script>
 </body>
 </html>
